@@ -19,7 +19,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
       set({ loading: true, error: null });
 
       // Call the backend to create an order
-      const response = await fetch('http://localhost:3001/create-order', {
+      const response = await fetch('http://54.224.203.9:3001/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
       set({ loading: true, error: null });
 
       // Call the backend to verify the payment
-      const response = await fetch('http://localhost:3001/verify-payment', {
+      const response = await fetch('http://54.224.203.9:3001/verify-payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
