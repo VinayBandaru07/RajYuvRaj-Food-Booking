@@ -19,7 +19,9 @@
     "@stripe/stripe-js": "^3.0.7",
     "zustand": "^4.5.2",
     "razorpay": "^2.9.2",
-    "crypto-js": "^4.2.0"
+    "crypto-js": "^4.2.0",
+    "xlsx": "^0.18.5",
+    "date-fns": "^2.30.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",

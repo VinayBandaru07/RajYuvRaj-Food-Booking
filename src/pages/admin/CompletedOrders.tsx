@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { Printer } from 'lucide-react';
+import { Printer, Download, Calendar } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { exportOrders } from '../../utils/exportOrders';
+import { format } from 'date-fns';
 
 interface Order {
   id: string;
@@ -22,17 +24,27 @@ interface Order {
 
 function CompletedOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     fetchCompletedOrders();
-  }, []);
+  }, [selectedDate]);
 
   const fetchCompletedOrders = async () => {
     try {
+      const startOfDay = new Date(selectedDate);
+      startOfDay.setHours(0, 0, 0, 0);
+      
+      const endOfDay = new Date(selectedDate);
+      endOfDay.setHours(23, 59, 59, 999);
+
       const q = query(
         collection(db, 'orders'),
-        where('status', '==', 'completed')
+        where('status', '==', 'completed'),
+        where('createdAt', '>=', startOfDay.toISOString()),
+        where('createdAt', '<=', endOfDay.toISOString())
       );
+      
       const querySnapshot = await getDocs(q);
       const fetchedOrders: Order[] = [];
       querySnapshot.forEach((doc) => {
@@ -43,6 +55,7 @@ function CompletedOrders() {
       ));
     } catch (error) {
       toast.error('Failed to fetch completed orders');
+      console.log(error);
     }
   };
 
@@ -68,9 +81,42 @@ function CompletedOrders() {
     }
   };
 
+  const handleExport = () => {
+    if (orders.length === 0) {
+      toast.error('No orders to export');
+      return;
+    }
+    try {
+      exportOrders(orders, selectedDate);
+      toast.success('Orders exported successfully');
+    } catch (error) {
+      toast.error('Failed to export orders');
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Completed Orders</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-gray-900">Completed Orders</h2>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <Calendar className="w-5 h-5 text-gray-500" />
+            <input
+              type="date"
+              value={format(selectedDate, 'yyyy-MM-dd')}
+              onChange={(e) => setSelectedDate(new Date(e.target.value))}
+              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          <button
+            onClick={handleExport}
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Export Orders
+          </button>
+        </div>
+      </div>
       
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {orders.map((order) => (
@@ -123,7 +169,7 @@ function CompletedOrders() {
 
       {orders.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-500">No completed orders</p>
+          <p className="text-gray-500">No completed orders for selected date</p>
         </div>
       )}
     </div>

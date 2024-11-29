@@ -24,7 +24,7 @@ interface MenuState {
 
 export const useMenuStore = create<MenuState>((set) => ({
   items: [],
-  loading: false,
+  loading: true, // Start with loading true
   error: null,
   initialized: false,
 
@@ -43,6 +43,8 @@ export const useMenuStore = create<MenuState>((set) => ({
   },
 
   startRealTimeUpdates: () => {
+    set({ loading: true }); // Set loading true when starting real-time updates
+    
     const unsubscribe = onSnapshot(
       collection(db, 'menuItems'),
       (snapshot) => {

@@ -88,13 +88,23 @@ function Menu() {
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="min-h-screen bg-gray-100">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-[calc(100vh-64px)]">
+          <LoadingSpinner />
+        </div>
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-500">{error}</p>
+      <div className="min-h-screen bg-gray-100">
+        <Navbar />
+        <div className="text-center py-12">
+          <p className="text-red-500">{error}</p>
+        </div>
       </div>
     );
   }
