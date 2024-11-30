@@ -66,8 +66,11 @@ function App() {
             <AdminRoute>
               <AdminDashboard />
             </AdminRoute>
+            
           }
+          
         />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

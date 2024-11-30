@@ -20,6 +20,7 @@ interface Order {
   status: string;
   createdAt: string;
   completedAt: string;
+  completionStatus: 'success' | 'failed';
 }
 
 function CompletedOrders() {
@@ -40,7 +41,7 @@ function CompletedOrders() {
 
       const q = query(
         collection(db, 'orders'),
-        where('status', '==', 'completed'),
+        where('status', 'in', ['completed', 'not_done']),
         where('createdAt', '>=', startOfDay.toISOString()),
         where('createdAt', '<=', endOfDay.toISOString())
       );
@@ -55,7 +56,7 @@ function CompletedOrders() {
       ));
     } catch (error) {
       toast.error('Failed to fetch completed orders');
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -71,6 +72,7 @@ function CompletedOrders() {
       
       Total: ₹${order.total}
       Completed At: ${new Date(order.completedAt).toLocaleString()}
+      Status: ${order.completionStatus === 'success' ? 'Completed' : 'Not Done'}
     `;
     
     const printWindow = window.open('', '_blank');
@@ -131,8 +133,12 @@ function CompletedOrders() {
                   Completed: {new Date(order.completedAt).toLocaleString()}
                 </p>
               </div>
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                Completed
+              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                order.completionStatus === 'success' 
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-red-100 text-red-800'
+              }`}>
+                {order.completionStatus === 'success' ? 'Completed' : 'Not Done'}
               </span>
             </div>
             

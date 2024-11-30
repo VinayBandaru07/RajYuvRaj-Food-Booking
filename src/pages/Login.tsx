@@ -15,13 +15,23 @@ function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+  
+    const isPhoneNumberValid = /^\d{10}$/.test(formData.phone);
+  
     if (!formData.name || !formData.phone || !formData.seatNumber) {
       toast.error('Please fill in all fields');
       return;
     }
+  
+    if (!isPhoneNumberValid) {
+      toast.error('Invalid Phone Number');
+      return;
+    }
+  
     setUser(formData.name, formData.phone, formData.seatNumber);
     navigate('/menu');
   };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-800 flex items-center justify-center px-4">

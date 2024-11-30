@@ -8,7 +8,23 @@ import toast from 'react-hot-toast';
 function Cart() {
   const navigate = useNavigate();
   const { cart, updateQuantity, removeFromCart } = useStore();
-  const { items: menuItems } = useMenuStore();
+  const { items: menuItems, startRealTimeUpdates } = useMenuStore();
+
+  useEffect(() => {
+    const unsubscribe = startRealTimeUpdates();
+    return () => unsubscribe();
+  }, []);
+
+  // Listen for menu changes and remove out-of-stock items
+  useEffect(() => {
+    cart.forEach(cartItem => {
+      const menuItem = menuItems.find(item => item.id === cartItem.id);
+      if (menuItem && !menuItem.enabled) {
+        removeFromCart(cartItem.id);
+        toast.error(`${cartItem.name} has been removed from your cart as it is now out of stock`);
+      }
+    });
+  }, [menuItems, cart]);
 
   const handleQuantityChange = (id: string, currentQuantity: number, change: number) => {
     const menuItem = menuItems.find(item => item.id === id);
@@ -46,17 +62,6 @@ function Cart() {
     const handlingCharges = 4;
     return subtotal + sgst + cgst + handlingCharges;
   };
-
-  useEffect(() => {
-    const enabledItems = cart.filter(item => 
-      menuItems.find(mi => mi.id === item.id)?.enabled
-    );
-    if (enabledItems.length === 0) {
-      toast.error('No items available for payment');
-      navigate('/cart');
-    }
-  }, [cart, menuItems, navigate]);
-  
 
   const availableItemsCount = cart.filter(item => 
     menuItems.find(mi => mi.id === item.id)?.enabled
@@ -188,17 +193,17 @@ function Cart() {
                   </div>
                 </div>
                 <button
-  onClick={() => {
-    if (availableItemsCount > 0) {
-      navigate('/payment');
-    } else {
-      toast.error('No available items to proceed with payment');
-    }
-  }}
-  className="w-full mt-6 bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition-colors duration-300"
->
-  Proceed to Payment
-</button>
+                  onClick={() => {
+                    if (availableItemsCount > 0) {
+                      navigate('/payment');
+                    } else {
+                      toast.error('No available items to proceed with payment');
+                    }
+                  }}
+                  className="w-full mt-6 bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition-colors duration-300"
+                >
+                  Proceed to Payment
+                </button>
               </div>
             </div>
           </div>

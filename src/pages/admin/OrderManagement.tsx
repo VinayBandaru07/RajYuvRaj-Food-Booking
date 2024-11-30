@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { Printer, CheckCircle } from 'lucide-react';
+import { Printer, CheckCircle, XCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { usePaymentStore } from '../../store/paymentStore'; // Assuming the store is in store/paymentStore.ts
 
 interface Order {
   id: string;
@@ -18,14 +17,10 @@ interface Order {
   seatNumber: string;
   status: string;
   createdAt: string;
-  paymentId: string; // Add paymentId to order
-  orderId: string; // Add orderId to order
-  signature: string
 }
 
 function OrderManagement() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const { verifyPayment } = usePaymentStore();
 
   useEffect(() => {
     fetchOrders();
@@ -71,22 +66,17 @@ function OrderManagement() {
     }
   };
 
-  const markAsCompleted = async (order: Order) => {
+  const updateOrderStatus = async (orderId: string, status: 'completed' | 'not_done') => {
     try {
-      // Verify the payment before marking the order as completed
-      const isVerified = await verifyPayment(order.orderId, order.paymentId, order.signature); // Assuming the signature is part of the order data
-      if (isVerified) {
-        await updateDoc(doc(db, 'orders', order.id), {
-          status: 'completed',
-          completedAt: new Date().toISOString(),
-        });
-        toast.success('Order marked as completed');
-        fetchOrders(); // Refresh orders
-      } else {
-        toast.error('Payment verification failed. Cannot complete the order.');
-      }
+      await updateDoc(doc(db, 'orders', orderId), {
+        status,
+        completedAt: new Date().toISOString(),
+        completionStatus: status === 'completed' ? 'success' : 'failed'
+      });
+      toast.success(`Order marked as ${status === 'completed' ? 'completed' : 'not done'}`);
+      fetchOrders();
     } catch (error) {
-      toast.error('Failed to verify payment or update order status');
+      toast.error('Failed to update order status');
     }
   };
 
@@ -137,7 +127,14 @@ function OrderManagement() {
                 Print
               </button>
               <button
-                onClick={() => markAsCompleted(order)}
+                onClick={() => updateOrderStatus(order.id, 'not_done')}
+                className="inline-flex items-center px-3 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700"
+              >
+                <XCircle className="w-4 h-4 mr-2" />
+                Not Done
+              </button>
+              <button
+                onClick={() => updateOrderStatus(order.id, 'completed')}
                 className="inline-flex items-center px-3 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700"
               >
                 <CheckCircle className="w-4 h-4 mr-2" />

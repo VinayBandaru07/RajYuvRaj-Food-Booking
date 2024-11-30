@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
+import { useMenuStore } from '../store/menuStore';
 import { usePaymentStore } from '../store/paymentStore';
 import { ArrowLeft, CreditCard } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -16,10 +17,33 @@ declare global {
 
 function Payment() {
   const navigate = useNavigate();
-  const { cart, name, phone, seatNumber, clearCart } = useStore();
+  const { cart, name, phone, seatNumber, clearCart, removeFromCart } = useStore();
+  const { items: menuItems, startRealTimeUpdates } = useMenuStore();
   const { createOrder, verifyPayment, updateTransactionStatus } = usePaymentStore();
   const [isProcessing, setIsProcessing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = startRealTimeUpdates();
+    return () => unsubscribe();
+  }, []);
+
+  // Listen for menu changes and handle out-of-stock items
+  useEffect(() => {
+    let hasOutOfStockItems = false;
+    cart.forEach(cartItem => {
+      const menuItem = menuItems.find(item => item.id === cartItem.id);
+      if (menuItem && !menuItem.enabled) {
+        removeFromCart(cartItem.id);
+        hasOutOfStockItems = true;
+      }
+    });
+
+    if (hasOutOfStockItems) {
+      toast.error('Some items in your cart are now out of stock');
+      navigate('/cart');
+    }
+  }, [menuItems, cart]);
 
   useEffect(() => {
     // Load Razorpay SDK
@@ -35,7 +59,11 @@ function Payment() {
   }, []);
 
   const calculateTotal = () => {
-    const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    const subtotal = cart.reduce((total, item) => {
+      const menuItem = menuItems.find(mi => mi.id === item.id);
+      if (!menuItem?.enabled) return total;
+      return total + item.price * item.quantity;
+    }, 0);
     const sgst = subtotal * 0.025;
     const cgst = subtotal * 0.025;
     const handlingCharges = 4;
@@ -44,13 +72,13 @@ function Payment() {
 
   const handlePayment = async () => {
     try {
-      console.log(calculateTotal());
       setIsProcessing(true);
       const amount = calculateTotal();
       const receipt = `ORDER_${Date.now()}`;
 
       // Create order in Razorpay
       const order = await createOrder(amount*100, receipt);
+      
       // Create transaction record
       const transaction = await addDoc(collection(db, 'transactions'), {
         orderId: order.id,
@@ -68,7 +96,7 @@ function Payment() {
       });
 
       const options = {
-        key: 'rzp_test_2r4RjQY2BcnXVF', // Replace with your key
+        key: 'rzp_test_2r4RjQY2BcnXVF',
         amount: amount * 100,
         currency: 'INR',
         name: 'Movie Food',
@@ -171,12 +199,17 @@ function Payment() {
               <div className="border rounded-lg p-4">
                 <h3 className="font-medium text-gray-900 mb-2">Order Summary</h3>
                 <div className="space-y-2">
-                  {cart.map((item) => (
-                    <div key={item.id} className="flex justify-between text-sm">
-                      <span>{item.name} x {item.quantity}</span>
-                      <span>₹{(item.price * item.quantity).toFixed(2)}</span>
-                    </div>
-                  ))}
+                  {cart.map((item) => {
+                    const menuItem = menuItems.find(mi => mi.id === item.id);
+                    if (!menuItem?.enabled) return null;
+                    
+                    return (
+                      <div key={item.id} className="flex justify-between text-sm">
+                        <span>{item.name} x {item.quantity}</span>
+                        <span>₹{(item.price * item.quantity).toFixed(2)}</span>
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className="border-t mt-4 pt-4">
                   <div className="flex justify-between font-semibold">
