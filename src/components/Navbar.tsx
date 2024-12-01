@@ -19,7 +19,8 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <h1 className="text-xl font-bold text-[#fe0002] ">Raj Yuvraj</h1>
+            <h1 className="text-xl text-[#fe0002]" style={{fontWeight:'bolder'}}>Raj Yuvraj</h1>
+            <img className="w-10 h-auto mx-auto  object-cover mb-4" src="https://media.tenor.com/CLVR-rgpQL8AAAAj/popcorn-joypixels.gif" alt="" />
             {/* <span className="ml-4 text-gray-600">Welcome, {name}</span> */}
           </div>
           <div className="flex items-center space-x-4">

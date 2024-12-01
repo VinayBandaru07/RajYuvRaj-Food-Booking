@@ -90,7 +90,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
             <input
               type="text"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-600 focus:ring-purple-600"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
@@ -102,7 +102,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
               type="number"
               required
               step="0.01"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-600 focus:ring-purple-600"
               value={formData.price}
               onChange={(e) => setFormData({ ...formData, price: e.target.value })}
             />
@@ -112,7 +112,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
             <label className="block text-sm font-medium text-gray-700">Category</label>
             <select
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-600 focus:ring-purple-600"
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
             >
@@ -126,7 +126,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
             <label className="block text-sm font-medium text-gray-700">Subcategory (Optional)</label>
             <input
               type="text"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-600 focus:ring-purple-600"
               value={formData.subcategory}
               onChange={(e) => setFormData({ ...formData, subcategory: e.target.value })}
             />
@@ -135,7 +135,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
           <div>
             <label className="block text-sm font-medium text-gray-700">Description (Optional)</label>
             <textarea
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-600 focus:ring-purple-600"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
@@ -182,7 +182,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
               id="enabled"
               checked={formData.enabled}
               onChange={(e) => setFormData({ ...formData, enabled: e.target.checked })}
-              className="h-4 w-4 text-[#fe0002] focus:ring-[#fe0002] border-gray-300 rounded"
+              className="h-4 w-4 text-purple-600 focus:ring-purple-600 border-gray-300 rounded"
             />
             <label htmlFor="enabled" className="ml-2 block text-sm text-gray-900">
               Item Available
@@ -199,7 +199,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#fe0002] hover:bg-purple-700"
+              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
             >
               {editingItem ? 'Update' : 'Add'} Item
             </button>
@@ -350,7 +350,7 @@ function MenuManagement() {
             setEditingItem(null);
             setIsModalOpen(true);
           }}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#fe0002] hover:bg-purple-700"
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add New Item
@@ -366,7 +366,7 @@ function MenuManagement() {
               value={filters.search}
               onChange={(e) => setFilters({ ...filters, search: e.target.value })}
               placeholder="Search items..."
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-600 focus:ring-purple-600"
             />
           </div>
           <div>
@@ -374,7 +374,7 @@ function MenuManagement() {
             <select
               value={filters.category}
               onChange={(e) => setFilters({ ...filters, category: e.target.value, subcategory: 'all' })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-600 focus:ring-purple-600"
             >
               <option value="all">All Categories</option>
               {categories.map(({ name }) => (
@@ -387,7 +387,7 @@ function MenuManagement() {
             <select
               value={filters.subcategory}
               onChange={(e) => setFilters({ ...filters, subcategory: e.target.value })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-600 focus:ring-purple-600"
               disabled={filters.category === 'all'}
             >
               <option value="all">All Subcategories</option>
@@ -404,7 +404,7 @@ function MenuManagement() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden border">
+            <div key={item.id} className="bg-purple-100 rounded-lg shadow-md overflow-hidden border">
               <div className="relative">
                 <img
                   src={item.image}
@@ -417,7 +417,7 @@ function MenuManagement() {
                   </div>
                 )}
               </div>
-              <div className="p-4">
+              <div className="p-4 ">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
                   <div className="flex items-center space-x-2">
@@ -438,7 +438,7 @@ function MenuManagement() {
                     </button>
                   </div>
                 </div>
-                <p className="text-[#fe0002] font-bold mb-2">₹{item.price}</p>
+                <p className="text-purple-600 font-bold mb-2">₹{item.price}</p>
                 {item.description && (
                   <p className="text-gray-600 text-sm mb-2">{item.description}</p>
                 )}
@@ -456,7 +456,7 @@ function MenuManagement() {
                       onChange={() => toggleItemStatus(item)}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#fe0002]"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
                   </label>
                 </div>
               </div>
