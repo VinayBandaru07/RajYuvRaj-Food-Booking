@@ -125,7 +125,7 @@ function Menu() {
           {filteredAndSortedItems.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-[calc(50vh-11rem)] md:h-[calc(40vh-12rem)] lg:h-[calc(50vh-4rem)]"
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-[calc(55vh-11rem)] md:h-[calc(40vh-12rem)] lg:h-[calc(50vh-4rem)]"
             >
               <div className="relative flex-shrink-0 lg:h-[55%] md:h-[50%] h-[50%]">
                 <img
