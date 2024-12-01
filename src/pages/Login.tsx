@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
 import toast from 'react-hot-toast';
 import { SCREENS } from '../constants/categories';
+import logo from '../public/WhatsApp Image 2024-12-01 at 11.17.39 AM.jpeg';
 
 function Login() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ function Login() {
     name: '',
     phone: '',
     seatNumber: '',
-    screen: SCREENS[0]
+    screen: String(SCREENS[0])
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -35,12 +36,12 @@ function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fe0002] to-black flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-xl p-8">
+      <div className="max-w-md w-full bg-white shadow-xl p-8">
         <div className="text-center mb-8">
           <img 
-            src="https://images.unsplash.com/photo-1634141613544-001d33883517?q=80&w=200&h=200&auto=format&fit=crop"
+            src={logo}
             alt="Raj Yuvraj Logo"
-            className="w-24 h-24 mx-auto rounded-full object-cover mb-4"
+            className="w-34 h-24 mx-auto  object-cover mb-4"
           />
           <h2 className="mt-4 text-3xl font-bold text-gray-900">Raj Yuvraj</h2>
           <p className="mt-2 text-gray-600">Sign in to order your snacks</p>

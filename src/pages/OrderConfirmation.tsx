@@ -15,7 +15,7 @@ function OrderConfirmation() {
         </p>
         <button
           onClick={() => navigate('/menu')}
-          className="inline-flex items-center space-x-2 bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition-colors duration-300"
+          className="inline-flex items-center space-x-2 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors duration-300"
         >
           <Home className="w-5 h-5" />
           <span>Return to Menu</span>

@@ -34,7 +34,7 @@ function CategoryBar({
                 }}
                 className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ${
                   selectedCategory === main
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-red-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -49,7 +49,7 @@ function CategoryBar({
                 onClick={() => onSubcategoryChange('all')}
                 className={`px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap ${
                   selectedSubcategory === 'all'
-                    ? 'bg-purple-100 text-purple-700'
+                    ? 'bg-red-100 text-red-700'
                     : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                 }`}
               >
@@ -61,7 +61,7 @@ function CategoryBar({
                   onClick={() => onSubcategoryChange(sub)}
                   className={`px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap ${
                     selectedSubcategory === sub
-                      ? 'bg-purple-100 text-purple-700'
+                      ? 'bg-red-100 text-red-700'
                       : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                   }`}
                 >

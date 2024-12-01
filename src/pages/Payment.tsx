@@ -17,7 +17,7 @@ declare global {
 
 function Payment() {
   const navigate = useNavigate();
-  const { cart, name, phone, seatNumber, clearCart, removeFromCart } = useStore();
+  const { cart, name, phone, seatNumber, clearCart, removeFromCart, screen } = useStore();
   const { items: menuItems, startRealTimeUpdates } = useMenuStore();
   const { createOrder, verifyPayment, updateTransactionStatus } = usePaymentStore();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -131,6 +131,7 @@ function Payment() {
                 customerPhone: phone,
                 seatNumber,
                 status: 'pending',
+                screen,
                 orderId: response.razorpay_order_id,
                 paymentId: response.razorpay_payment_id,
                 signature: response.razorpay_signature,
@@ -232,7 +233,7 @@ function Payment() {
                 <button
                   onClick={handlePayment}
                   disabled={isProcessing}
-                  className="w-full flex items-center justify-center space-x-2 bg-purple-600 text-white py-3 px-4 rounded-md hover:bg-purple-700 transition-colors duration-300 disabled:opacity-75 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center space-x-2 bg-red-600 text-white py-3 px-4 rounded-md hover:bg-red-700 transition-colors duration-300 disabled:opacity-75 disabled:cursor-not-allowed"
                 >
                   <CreditCard className="w-5 h-5" />
                   <span>{isProcessing ? 'Processing...' : 'Pay with Razorpay'}</span>

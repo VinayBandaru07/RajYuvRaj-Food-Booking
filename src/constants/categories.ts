@@ -8,6 +8,6 @@ export const FOOD_CATEGORIES = [
   ] as const;
   
   export const SCREENS = [
-    'Screen 1',
-    'Screen 2'
+    'Raj',
+    'Yuvraj'
   ] as const;

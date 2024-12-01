@@ -19,7 +19,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     price: '',
-    category: FOOD_CATEGORIES[0],
+    category: String(FOOD_CATEGORIES[0]),
     subcategory: '',
     description: '',
     enabled: true,
@@ -167,7 +167,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
                   <button
                     type="button"
                     onClick={removeCurrentImage}
-                    className="text-red-500 hover:text-red-700"
+                    className="text-purple-500 hover:text-purple-700"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -199,7 +199,7 @@ function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#fe0002] hover:bg-red-700"
+              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#fe0002] hover:bg-purple-700"
             >
               {editingItem ? 'Update' : 'Add'} Item
             </button>
@@ -336,7 +336,7 @@ function MenuManagement() {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-500">{error}</p>
+        <p className="text-purple-500">{error}</p>
       </div>
     );
   }
@@ -350,7 +350,7 @@ function MenuManagement() {
             setEditingItem(null);
             setIsModalOpen(true);
           }}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#fe0002] hover:bg-red-700"
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#fe0002] hover:bg-purple-700"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add New Item
@@ -432,7 +432,7 @@ function MenuManagement() {
                     </button>
                     <button
                       onClick={() => handleDelete(item)}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-purple-500 hover:text-purple-700"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -456,7 +456,7 @@ function MenuManagement() {
                       onChange={() => toggleItemStatus(item)}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#fe0002]"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#fe0002]"></div>
                   </label>
                 </div>
               </div>

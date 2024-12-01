@@ -55,7 +55,7 @@ function AdminLogin() {
           </div>
           
           {error && (
-            <p className="text-red-500 text-sm">{error}</p>
+            <p className="text-purple-500 text-sm">{error}</p>
           )}
           
           <button

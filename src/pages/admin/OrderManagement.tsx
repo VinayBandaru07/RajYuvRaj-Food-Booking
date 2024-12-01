@@ -17,6 +17,7 @@ interface Order {
   seatNumber: string;
   status: string;
   createdAt: string;
+  screen: string
 }
 
 function OrderManagement() {
@@ -93,6 +94,7 @@ function OrderManagement() {
                   {order.customerName}
                 </h3>
                 <p className="text-sm text-gray-500">Seat: {order.seatNumber}</p>
+                <p className="text-sm text-gray-500">Screen: {order.screen}</p>
                 <p className="text-sm text-gray-500">Phone: {order.customerPhone}</p>
               </div>
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
@@ -128,7 +130,7 @@ function OrderManagement() {
               </button>
               <button
                 onClick={() => updateOrderStatus(order.id, 'not_done')}
-                className="inline-flex items-center px-3 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700"
+                className="inline-flex items-center px-3 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
               >
                 <XCircle className="w-4 h-4 mr-2" />
                 Not Done
