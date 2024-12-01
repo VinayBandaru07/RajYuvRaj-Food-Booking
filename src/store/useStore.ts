@@ -13,9 +13,10 @@ interface UserState {
   name: string;
   phone: string;
   seatNumber: string;
+  screen: string;
   isLoggedIn: boolean;
   cart: CartItem[];
-  setUser: (name: string, phone: string, seatNumber: string) => void;
+  setUser: (name: string, phone: string, seatNumber: string, screen: string) => void;
   logout: () => void;
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
@@ -29,18 +30,21 @@ export const useStore = create<UserState>()(
       name: '',
       phone: '',
       seatNumber: '',
+      screen: '',
       isLoggedIn: false,
       cart: [],
-      setUser: (name, phone, seatNumber) => set({ 
+      setUser: (name, phone, seatNumber, screen) => set({ 
         name, 
         phone, 
-        seatNumber, 
+        seatNumber,
+        screen,
         isLoggedIn: true 
       }),
       logout: () => set({ 
         name: '', 
         phone: '', 
-        seatNumber: '', 
+        seatNumber: '',
+        screen: '',
         isLoggedIn: false,
         cart: [] 
       }),

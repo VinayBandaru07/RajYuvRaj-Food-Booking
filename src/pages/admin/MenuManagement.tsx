@@ -6,6 +6,7 @@ import { Plus, Edit2, Trash2, X, Image as ImageIcon } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useMenuStore } from '../../store/menuStore';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { FOOD_CATEGORIES } from '../../constants/categories';
 
 interface MenuModalProps {
   isOpen: boolean;
@@ -14,11 +15,11 @@ interface MenuModalProps {
   onSubmit: (formData: any) => Promise<void>;
 }
 
-const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, editingItem, onSubmit }) => {
+function MenuModal({ isOpen, onClose, editingItem, onSubmit }: MenuModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     price: '',
-    category: '',
+    category: FOOD_CATEGORIES[0],
     subcategory: '',
     description: '',
     enabled: true,
@@ -44,7 +45,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, editingItem, onS
       setFormData({
         name: '',
         price: '',
-        category: '',
+        category: FOOD_CATEGORIES[0],
         subcategory: '',
         description: '',
         enabled: true,
@@ -89,7 +90,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, editingItem, onS
             <input
               type="text"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
@@ -101,7 +102,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, editingItem, onS
               type="number"
               required
               step="0.01"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
               value={formData.price}
               onChange={(e) => setFormData({ ...formData, price: e.target.value })}
             />
@@ -109,20 +110,23 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, editingItem, onS
 
           <div>
             <label className="block text-sm font-medium text-gray-700">Category</label>
-            <input
-              type="text"
+            <select
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            />
+            >
+              {FOOD_CATEGORIES.map((category) => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700">Subcategory (Optional)</label>
             <input
               type="text"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
               value={formData.subcategory}
               onChange={(e) => setFormData({ ...formData, subcategory: e.target.value })}
             />
@@ -131,7 +135,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, editingItem, onS
           <div>
             <label className="block text-sm font-medium text-gray-700">Description (Optional)</label>
             <textarea
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
@@ -178,7 +182,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, editingItem, onS
               id="enabled"
               checked={formData.enabled}
               onChange={(e) => setFormData({ ...formData, enabled: e.target.checked })}
-              className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+              className="h-4 w-4 text-[#fe0002] focus:ring-[#fe0002] border-gray-300 rounded"
             />
             <label htmlFor="enabled" className="ml-2 block text-sm text-gray-900">
               Item Available
@@ -195,7 +199,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, editingItem, onS
             </button>
             <button
               type="submit"
-              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
+              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#fe0002] hover:bg-red-700"
             >
               {editingItem ? 'Update' : 'Add'} Item
             </button>
@@ -204,7 +208,7 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, editingItem, onS
       </div>
     </div>
   );
-};
+}
 
 function MenuManagement() {
   const { items, loading, error, fetchMenuItems, startRealTimeUpdates } = useMenuStore();
@@ -256,7 +260,6 @@ function MenuManagement() {
         const snapshot = await uploadBytes(storageRef, formData.image);
         imageUrl = await getDownloadURL(snapshot.ref);
 
-        // Delete old image if exists and different
         if (editingItem?.image && editingItem.image !== imageUrl) {
           const oldImageRef = ref(storage, editingItem.image);
           try {
@@ -299,7 +302,6 @@ function MenuManagement() {
       try {
         await deleteDoc(doc(db, 'menuItems', item.id));
         
-        // Delete image from storage
         if (item.image) {
           const imageRef = ref(storage, item.image);
           try {
@@ -348,7 +350,7 @@ function MenuManagement() {
             setEditingItem(null);
             setIsModalOpen(true);
           }}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#fe0002] hover:bg-red-700"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add New Item
@@ -364,7 +366,7 @@ function MenuManagement() {
               value={filters.search}
               onChange={(e) => setFilters({ ...filters, search: e.target.value })}
               placeholder="Search items..."
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
             />
           </div>
           <div>
@@ -372,7 +374,7 @@ function MenuManagement() {
             <select
               value={filters.category}
               onChange={(e) => setFilters({ ...filters, category: e.target.value, subcategory: 'all' })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
             >
               <option value="all">All Categories</option>
               {categories.map(({ name }) => (
@@ -385,7 +387,7 @@ function MenuManagement() {
             <select
               value={filters.subcategory}
               onChange={(e) => setFilters({ ...filters, subcategory: e.target.value })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#fe0002] focus:ring-[#fe0002]"
               disabled={filters.category === 'all'}
             >
               <option value="all">All Subcategories</option>
@@ -436,7 +438,7 @@ function MenuManagement() {
                     </button>
                   </div>
                 </div>
-                <p className="text-purple-600 font-bold mb-2">₹{item.price}</p>
+                <p className="text-[#fe0002] font-bold mb-2">₹{item.price}</p>
                 {item.description && (
                   <p className="text-gray-600 text-sm mb-2">{item.description}</p>
                 )}
@@ -454,7 +456,7 @@ function MenuManagement() {
                       onChange={() => toggleItemStatus(item)}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#fe0002]"></div>
                   </label>
                 </div>
               </div>
