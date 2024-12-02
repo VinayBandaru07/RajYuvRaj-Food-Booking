@@ -160,7 +160,7 @@ function Menu() {
                     ) : getItemQuantity(item.id) === 0 ? (
                       <button
                         onClick={() => handleQuantityChange(item, 1)}
-                        className="px-2 py-1 md:px-4 md:py-2 bg-[#fe0002] text-white text-sm rounded-md hover:bg-red-700 transition-colors duration-300"
+                        className="px-6 py-1 md:px-4 md:py-2 bg-[#fe0002] text-white text-sm rounded-md hover:bg-red-700 transition-colors duration-300"
                       >
                         Add
                       </button>

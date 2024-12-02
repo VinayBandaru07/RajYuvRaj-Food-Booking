@@ -96,7 +96,7 @@ function Payment() {
       });
 
       const options = {
-        key: 'rzp_test_2r4RjQY2BcnXVF',
+        key: '', //'rzp_test_2r4RjQY2BcnXVF',
         amount: amount * 100,
         currency: 'INR',
         name: 'Movie Food',
