@@ -48,9 +48,13 @@ function OrderManagement() {
 
   const handlePrint = (order: Order) => {
     const printContent = `
+      Customer Copy
+      G3 CINEMA
+    ------------------
       Order Details:
       Customer: ${order.customerName}
       Seat: ${order.seatNumber}
+      Screen: ${order.screen}
       Phone: ${order.customerPhone}
       
       Items:

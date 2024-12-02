@@ -17,6 +17,7 @@ interface Order {
   customerName: string;
   customerPhone: string;
   seatNumber: string;
+  screen: string;
   status: string;
   createdAt: string;
   completedAt: string;
@@ -62,9 +63,13 @@ function CompletedOrders() {
 
   const handlePrint = (order: Order) => {
     const printContent = `
+      Customer Copy
+      G3 CINEMA
+    ------------------
       Order Details:
       Customer: ${order.customerName}
       Seat: ${order.seatNumber}
+      Screen: ${order.screen}
       Phone: ${order.customerPhone}
       
       Items:
@@ -129,6 +134,7 @@ function CompletedOrders() {
                   {order.customerName}
                 </h3>
                 <p className="text-sm text-gray-500">Seat: {order.seatNumber}</p>
+                <p className="text-sm text-gray-500">Seat: {order.screen}</p>
                 <p className="text-sm text-gray-500">
                   Completed: {new Date(order.completedAt).toLocaleString()}
                 </p>
