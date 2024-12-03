@@ -333,6 +333,12 @@ If our store is acquired or merged with another company, your information may be
 <span style={{fontWeight:'500'}}>13. Acknowledgment</span><br />
 By placing an order and completing the payment, you acknowledge and accept these terms and conditions.
 
+<br /><br />
+Contact: 9346917375 <br />
+Email: harigepl@gmail.com <br />
+Address: Raj Yuvraj(G3 THEATRES),Andra Ratna Road ,gandi nagar,Vijayawada, andra pradesh,520010,india
+<br />
+
 
 
 
