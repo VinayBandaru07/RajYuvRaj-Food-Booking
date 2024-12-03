@@ -275,14 +275,14 @@ function Cart() {
   const calculateTaxes = (subtotal: number) => {
     const sgst = subtotal * 0.025; // 2.5%
     const cgst = subtotal * 0.025; // 2.5%
-    return { sgst, cgst };
+    const handleCharges = subtotal * 0.040
+    return { sgst, cgst, handleCharges };
   };
 
   const calculateTotal = () => {
     const subtotal = calculateSubtotal();
-    const { sgst, cgst } = calculateTaxes(subtotal);
-    const handlingCharges = 4;
-    return subtotal + sgst + cgst + handlingCharges;
+    const { sgst, cgst, handleCharges } = calculateTaxes(subtotal);
+    return subtotal + sgst + cgst + handleCharges;
   };
 
   const availableItemsCount = cart.filter(item => 
@@ -407,8 +407,8 @@ function Cart() {
                   <span>₹{calculateTaxes(calculateSubtotal()).cgst.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Handling Charges</span>
-                  <span>₹4.00</span>
+                  <span>Handling Charges (4%)</span>
+                  <span>₹{calculateTaxes(calculateSubtotal()).handleCharges.toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-3 mt-3">
                   <div className="flex justify-between font-semibold text-lg">
