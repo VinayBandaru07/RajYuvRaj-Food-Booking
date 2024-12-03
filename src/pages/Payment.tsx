@@ -9,6 +9,8 @@ import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import LoadingSpinner from '../components/LoadingSpinner';
 
+
+
 declare global {
   interface Window {
     Razorpay: any;
@@ -69,7 +71,7 @@ function Payment() {
     }, 0);
     const sgst = subtotal * 0.025;
     const cgst = subtotal * 0.025;
-    const handlingCharges = 4;
+    const handlingCharges = subtotal * 0.040;
     return subtotal + sgst + cgst + handlingCharges;
   };
 
@@ -80,12 +82,13 @@ function Payment() {
       const receipt = `ORDER_${Date.now()}`;
 
       // Create order in Razorpay
-      const order = await createOrder(amount*100, receipt);
+      const order = await createOrder(Number(parseFloat(String(amount*100)).toFixed(2)), receipt);
       
       // Create transaction record
       const transaction = await addDoc(collection(db, 'transactions'), {
         orderId: order.id,
-        amount: amount*100,
+        amount: Number(parseFloat(String(amount*100)).toFixed(2)),
+        receipt:receipt,
         customerName: name,
         customerPhone: phone,
         seatNumber,
@@ -99,7 +102,7 @@ function Payment() {
       });
 
       const options = {
-        key: '',
+        key: import.meta.env.VITE_API_KEY,
         amount: amount * 100,
         currency: 'INR',
         name: 'Movie Food',
