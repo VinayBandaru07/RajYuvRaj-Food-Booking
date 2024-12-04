@@ -71,7 +71,7 @@ function Payment() {
     }, 0);
     const sgst = subtotal * 0;
     const cgst = subtotal * 0;
-    const handlingCharges = subtotal * 0;
+    const handlingCharges = subtotal * 0.040;
     return subtotal + sgst + cgst + handlingCharges;
   };
 
@@ -219,25 +219,25 @@ function Payment() {
                   })}
                 </div>
                 <div className="border-t mt-4 pt-4">
-      {/* <div className="flex justify-between text-sm">
+      <div className="flex justify-between text-sm">
         <span>Subtotal</span>
         <span>₹{(cart.reduce((total, item) => total + item.price * item.quantity, 0)).toFixed(2)}</span>
       </div>
-      <div className="flex justify-between text-sm">
+      {/* <div className="flex justify-between text-sm">
         <span>CGST (2.5%)</span>
         <span>₹{(cart.reduce((total, item) => total + item.price * item.quantity, 0) * 0.025).toFixed(2)}</span>
       </div>
       <div className="flex justify-between text-sm">
         <span>SGST (2.5%)</span>
         <span>₹{(cart.reduce((total, item) => total + item.price * item.quantity, 0) * 0.025).toFixed(2)}</span>
-      </div>
+      </div> */}
       <div className="flex justify-between text-sm">
         <span>Handling Charges (4%)</span>
         <span>₹{(cart.reduce((total, item) => total + item.price * item.quantity, 0) * 0.04).toFixed(2)}</span>
-      </div> */}
+      </div>  
       <div className="flex justify-between font-semibold text-lg mt-4">
         <span>Total</span>
-        <span>₹{(cart.reduce((total, item) => total + item.price * item.quantity, 0)).toFixed(2)}</span>
+        <span>₹{calculateTotal().toFixed(2)}</span>
       </div>
     </div>
               </div>

@@ -62,25 +62,56 @@ function OrderManagement() {
     const { sgst, cgst, handlingCharges } = calculateTaxes(subtotal);
     
     const printContent = `
-      Customer Copy
-      G3 CINEMA
-    ------------------
+      ---------------------------------
+                Customer Copy
+                G3 CINEMA
+      ---------------------------------
       Order Details:
-      Customer: ${order.customerName}
-      Seat: ${order.seatNumber}
-      Screen: ${order.screen}
-      Phone: ${order.customerPhone}
-      
+      ---------------------------------
+      Customer Name  : ${order.customerName}
+      Seat Number    : ${order.seatNumber}
+      Screen         : ${order.screen}
+      Phone Number   : ${order.customerPhone}
+      ---------------------------------
       Items:
-      ${order.items.map(item => `${item.name} x${item.quantity} - ₹${item.price * item.quantity}`).join('\n')}
-      
-      Subtotal: ₹${subtotal.toFixed(2)}
-      SGST (2.5%): ₹${sgst.toFixed(2)}
-      CGST (2.5%): ₹${cgst.toFixed(2)}
-      Handling Charges (4%): ₹${handlingCharges.toFixed(2)}
-      
-      Total: ₹${order.total.toFixed(2)}
-    `;
+      ---------------------------------
+${order.items
+  .map(
+    (item) =>
+      `      ${item.name.padEnd(15)} x${item.quantity}   ₹${(
+        item.price * item.quantity
+      ).toFixed(2)}`
+  )
+  .join('\n')}
+      ---------------------------------
+      Total Amount   : ₹${order.total.toFixed(2)}
+      ---------------------------------
+      Thank You for Choosing G3 Cinema!
+`;
+
+
+  //   const printContent = `
+  //   Customer Copy
+  //   G3 CINEMA
+  // ------------------
+  //   Order Details:
+  //   Customer: ${order.customerName}
+  //   Seat: ${order.seatNumber}
+  //   Screen: ${order.screen}
+  //   Phone: ${order.customerPhone}
+    
+  //   Items:
+  //   ${order.items.map(item => `${item.name} x${item.quantity} - ₹${item.price * item.quantity}`).join('\n')}
+    
+    
+    
+  //   Total: ₹${order.total.toFixed(2)}
+  // `;
+
+    // Subtotal: ₹${subtotal.toFixed(2)}
+    //   SGST (2.5%): ₹${sgst.toFixed(2)}
+    //   CGST (2.5%): ₹${cgst.toFixed(2)}
+    //   Handling Charges (4%): ₹${handlingCharges.toFixed(2)}
     
     const printWindow = window.open('', '_blank');
     if (printWindow) {
@@ -139,26 +170,26 @@ function OrderManagement() {
                   ))}
                 </div>
                 <div className="mt-4 pt-4 border-t space-y-2">
-                  {/* <div className="flex justify-between text-sm">
+                   <div className="flex justify-between text-sm">
                     <span>Subtotal</span>
                     <span>₹{subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
+                  {/* <div className="flex justify-between text-sm">
                     <span>SGST (2.5%)</span>
                     <span>₹{sgst.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>CGST (2.5%)</span>
                     <span>₹{cgst.toFixed(2)}</span>
-                  </div>
+                  </div> */}
                   <div className="flex justify-between text-sm">
                     <span>Handling Charges (4%)</span>
                     <span>₹{handlingCharges.toFixed(2)}</span>
-                  </div> */}
-                  <div className="flex justify-between font-medium pt-2 ">
+                  </div> 
+                  <div className="flex justify-between font-medium pt-2 border-t ">
                   {/* border-t */}
                     <span>Total</span>
-                    <span>₹{subtotal.toFixed(2)}</span>
+                    <span>₹{order.total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
