@@ -69,29 +69,39 @@ function CompletedOrders() {
     const { sgst, cgst, handlingCharges } = calculateTaxes(subtotal);
 
     const printContent = `
-      Customer Copy
-      G3 CINEMA
-    ------------------
-      Order Details:
-      Customer: ${order.customerName}
-      Seat: ${order.seatNumber}
-      Screen: ${order.screen}
-      Phone: ${order.customerPhone}
-      
-      Items:
-      ${order.items
-        .map((item) => `${item.name} x${item.quantity} - ₹${item.price * item.quantity}`)
-        .join('\n')}
-      
-      Subtotal: ₹${subtotal.toFixed(2)}
-      SGST (2.5%): ₹${sgst.toFixed(2)}
-      CGST (2.5%): ₹${cgst.toFixed(2)}
-      Handling Charges (4%): ₹${handlingCharges.toFixed(2)}
-      
-      Total: ₹${order.total.toFixed(2)}
+      ---------------------------------
+                Customer Copy
+                G3 CINEMA
+      ---------------------------------
       Completed At: ${new Date(order.completedAt).toLocaleString()}
-      Status: ${order.completionStatus === 'success' ? 'Completed' : 'Not Done'}
-    `;
+      GSTN :37AAKFV0150G1Z9
+
+      Order Details:
+      ---------------------------------
+      Customer Name  : ${order.customerName}
+      Seat Number    : ${order.seatNumber}
+      Screen         : ${order.screen}
+      Phone Number   : ${order.customerPhone}
+      ---------------------------------
+      Items:
+      ---------------------------------
+      ${String(`Item Name`).padEnd(15) + String(`Qty`).padEnd(5) + String(`Price`)}
+${order.items
+  .map(
+    (item) =>
+      `      ${item.name.padEnd(15)} x${item.quantity}  ₹${(
+        item.price * item.quantity
+      ).toFixed(2)}`
+  )
+  .join('\n')}
+
+      Handling Charges(4%) : ₹${handlingCharges.toFixed(2)}
+      ---------------------------------
+      Total Amount   : ₹${order.total.toFixed(2)}
+      ---------------------------------
+      Thank You for Choosing G3 Cinema!
+`;
+
 
     const printWindow = window.open('', '_blank');
     if (printWindow) {

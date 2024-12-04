@@ -66,6 +66,9 @@ function OrderManagement() {
                 Customer Copy
                 G3 CINEMA
       ---------------------------------
+      Completed At: ${new Date(order.createdAt).toLocaleString()}
+      GSTN :37AAKFV0150G1Z9
+
       Order Details:
       ---------------------------------
       Customer Name  : ${order.customerName}
@@ -75,14 +78,17 @@ function OrderManagement() {
       ---------------------------------
       Items:
       ---------------------------------
+      ${String(`Item Name`).padEnd(15) + String(`Qty`).padEnd(5) + String(`Price`)}
 ${order.items
   .map(
     (item) =>
-      `      ${item.name.padEnd(15)} x${item.quantity}   ₹${(
+      `      ${item.name.padEnd(15)} x${item.quantity}  ₹${(
         item.price * item.quantity
       ).toFixed(2)}`
   )
   .join('\n')}
+
+      Handling Charges(4%) : ₹${handlingCharges.toFixed(2)}
       ---------------------------------
       Total Amount   : ₹${order.total.toFixed(2)}
       ---------------------------------
