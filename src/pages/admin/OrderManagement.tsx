@@ -59,6 +59,10 @@ function OrderManagement() {
       
       Items:
       ${order.items.map(item => `${item.name} x${item.quantity} - ₹${item.price * item.quantity}`).join('\n')}
+
+      SGST: 
+      CGST:
+      Handling charges:
       
       Total: ₹${order.total}
     `;
