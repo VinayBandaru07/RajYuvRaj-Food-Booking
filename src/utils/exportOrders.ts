@@ -8,6 +8,7 @@ export const exportOrders = (orders: any[], date: Date) => {
     'Customer Name': order.customerName,
     'Phone': order.customerPhone,
     'Seat Number': order.seatNumber,
+    'Screen': order.screen,
     'Total Amount': order.total,
     'Status': order.status,
     'Payment ID': order.paymentId,
