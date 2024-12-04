@@ -394,7 +394,7 @@ function Cart() {
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
               <div className="space-y-3">
-                <div className="flex justify-between text-gray-600">
+                {/* <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
                   <span>₹{calculateSubtotal().toFixed(2)}</span>
                 </div>
@@ -409,11 +409,11 @@ function Cart() {
                 <div className="flex justify-between text-gray-600">
                   <span>Handling Charges (4%)</span>
                   <span>₹{calculateTaxes(calculateSubtotal()).handleCharges.toFixed(2)}</span>
-                </div>
+                </div> */}
                 <div className="border-t pt-3 mt-3">
                   <div className="flex justify-between font-semibold text-lg">
                     <span>Total</span>
-                    <span>₹{calculateTotal().toFixed(2)}</span>
+                    <span>₹{calculateSubtotal().toFixed(2)}</span>
                   </div>
                 </div>
                 <button

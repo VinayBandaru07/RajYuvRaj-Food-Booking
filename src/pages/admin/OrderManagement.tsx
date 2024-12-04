@@ -139,7 +139,7 @@ function OrderManagement() {
                   ))}
                 </div>
                 <div className="mt-4 pt-4 border-t space-y-2">
-                  <div className="flex justify-between text-sm">
+                  {/* <div className="flex justify-between text-sm">
                     <span>Subtotal</span>
                     <span>₹{subtotal.toFixed(2)}</span>
                   </div>
@@ -154,10 +154,11 @@ function OrderManagement() {
                   <div className="flex justify-between text-sm">
                     <span>Handling Charges (4%)</span>
                     <span>₹{handlingCharges.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between font-medium pt-2 border-t">
+                  </div> */}
+                  <div className="flex justify-between font-medium pt-2 ">
+                  {/* border-t */}
                     <span>Total</span>
-                    <span>₹{order.total.toFixed(2)}</span>
+                    <span>₹{subtotal.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
