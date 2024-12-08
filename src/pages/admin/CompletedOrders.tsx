@@ -27,25 +27,27 @@ interface Order {
 
 function CompletedOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [totalCollected, setTotalCollected] = useState(0);
 
   useEffect(() => {
     fetchCompletedOrders();
-  }, [selectedDate]);
+  }, [startDate, endDate]);
 
   const fetchCompletedOrders = async () => {
     try {
-      const startOfDay = new Date(selectedDate);
-      startOfDay.setHours(0, 0, 0, 0);
+      const startOfRange = new Date(startDate);
+      startOfRange.setHours(0, 0, 0, 0);
 
-      const endOfDay = new Date(selectedDate);
-      endOfDay.setHours(23, 59, 59, 999);
+      const endOfRange = new Date(endDate);
+      endOfRange.setHours(23, 59, 59, 999);
 
       const q = query(
         collection(db, 'orders'),
         where('status', 'in', ['completed', 'not_done']),
-        where('createdAt', '>=', startOfDay.toISOString()),
-        where('createdAt', '<=', endOfDay.toISOString())
+        where('createdAt', '>=', startOfRange.toISOString()),
+        where('createdAt', '<=', endOfRange.toISOString())
       );
 
       const querySnapshot = await getDocs(q);
@@ -53,11 +55,16 @@ function CompletedOrders() {
       querySnapshot.forEach((doc) => {
         fetchedOrders.push({ id: doc.id, ...doc.data() } as Order);
       });
-      setOrders(
-        fetchedOrders.sort((a, b) =>
-          new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
-        )
+
+      const sortedOrders = fetchedOrders.sort(
+        (a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
       );
+
+      setOrders(sortedOrders);
+
+      // Calculate total money collected
+      const total = sortedOrders.reduce((sum, order) => sum + order.total, 0);
+      setTotalCollected(total);
     } catch (error) {
       toast.error('Failed to fetch completed orders');
       console.error(error);
@@ -102,7 +109,6 @@ ${order.items
       Thank You for Choosing G3 Cinema!
 `;
 
-
     const printWindow = window.open('', '_blank');
     if (printWindow) {
       printWindow.document.write(`<pre>${printContent}</pre>`);
@@ -117,7 +123,7 @@ ${order.items
       return;
     }
     try {
-      exportOrders(orders, selectedDate);
+      exportOrders(orders, startDate, endDate);
       toast.success('Orders exported successfully');
     } catch (error) {
       toast.error('Failed to export orders');
@@ -130,24 +136,40 @@ ${order.items
         <h2 className="lg:text-2xl md:text-2xl font-bold text-gray-900 hidden lg:block md:block">
           Completed Orders
         </h2>
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <Calendar className="w-5 h-5 text-gray-500" />
+        <div className="flex items-center space-x-2 md:space-x-4 lg:space-x-4">
+          <div className="flex items-center space-x-1 md:space-x-2 lg:space-x-2">
+            <Calendar className="w-5 h-5 text-gray-500 hidden lg:block md:block" />
             <input
               type="date"
-              value={format(selectedDate, 'yyyy-MM-dd')}
-              onChange={(e) => setSelectedDate(new Date(e.target.value))}
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={format(startDate, 'yyyy-MM-dd')}
+              onChange={(e) => setStartDate(new Date(e.target.value))}
+              className="border border-gray-300 rounded-md px-1 py-1 md:px-3 md:py-2 lg:px-3 lg:py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            <span>-</span>
+            <input
+              type="date"
+              value={format(endDate, 'yyyy-MM-dd')}
+              onChange={(e) => setEndDate(new Date(e.target.value))}
+              className="border border-gray-300 rounded-md px-1 py-1 md:px-3 md:py-2 lg:px-3 lg:py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
           <button
             onClick={handleExport}
             className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
           >
-            <Download className="w-4 h-4 mr-2" />
-            Export
+            <Download className="w-4 h-4 lg:mr-2 md:mr-2" />
+            <span className='hidden lg:block md:block'>Export</span>
           </button>
         </div>
+      </div>
+
+      <div className="bg-gray-100 p-4 rounded-md shadow-sm flex justify-between">
+        <p className="text-sm font-medium text-gray-700">
+          Number of Orders: <span className="font-semibold">{orders.length}</span>
+        </p>
+        <p className="text-sm font-medium text-gray-700">
+          Total Collected: <span className="font-semibold">₹{totalCollected.toFixed(2)}</span>
+        </p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -229,7 +251,7 @@ ${order.items
 
       {orders.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-500">No orders found for the selected date.</p>
+          <p className="text-gray-500">No orders found for the selected date range.</p>
         </div>
       )}
     </div>
