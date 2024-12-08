@@ -155,14 +155,22 @@ ${order.items
           </div>
           <button
             onClick={handleExport}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
+            className=" items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 hidden lg:inline-flex md:inline-flex"
           >
             <Download className="w-4 h-4 lg:mr-2 md:mr-2" />
-            <span className='hidden lg:block md:block'>Export</span>
+            <span className='block'>Export</span>
           </button>
         </div>
       </div>
 
+      <div className="bg-gray-100 p-4 rounded-md shadow-sm float-right">
+      <button
+            onClick={handleExport}
+            className="block lg:hidden md:hidden inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
+          >
+            <Download className="w-4 h-4 lg:mr-2 md:mr-2" />
+          </button>
+</div>
       <div className="bg-gray-100 p-4 rounded-md shadow-sm flex justify-between">
         <p className="text-sm font-medium text-gray-700">
           Number of Orders: <span className="font-semibold">{orders.length}</span>
