@@ -251,6 +251,16 @@ function Payment() {
                   <p><span className="font-medium">Screen:</span> {screen}</p>
                 </div>
               </div>
+              
+              <div>
+  <p style={{ fontWeight: 'bold', color: 'red', fontSize: '1rem', textAlign:'center' }}>
+    Wait until your order is confirmed after payment, and don't exit or reload this page while it's processing.
+  </p><br />
+  <p style={{ color: 'gray', fontSize: '0.8rem', textAlign:'center' }}>
+    Contact our food counter if you have issues about payment or order confirmation, we are always happy to assist.
+  </p>
+</div>
+
 
               <div className="space-y-4">
                 <button

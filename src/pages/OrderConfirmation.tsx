@@ -20,6 +20,12 @@ function OrderConfirmation() {
           <Home className="w-5 h-5" />
           <span>Return to Menu</span>
         </button>
+        <br /><br />
+        <div>
+  <p style={{ color: 'gray', fontSize: '0.8rem', textAlign:'center' }}>
+    Contact our food counter if you have issues about payment or order confirmation, we are always happy to assist.
+  </p>
+</div>
       </div>
     </div>
   );
